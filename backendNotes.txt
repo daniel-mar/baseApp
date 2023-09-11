@@ -1,0 +1,87 @@
+Modularization and installing dependencies for your full stack application
+
+1) Create package.json:
+    npm init -y
+
+2) Install dependencies (backend, db, middleware):
+    npm i mongoose express cors
+
+3) install DOTENV for securing DB credentials within a .env file
+
+The .env file will house the values of DB_USER, DB_PASS, DB_NAME, DB_LOC, DB_PORT
+* This is to secure sensitive information from github and openly available files.
+    The DB_PASS is within your MongoDB account;
+        the designated DB admins that you configure along with passwords for them
+        Those passwords are used within DOTENV to protect your Databases/Account.
+    The DB_Name option is added obfuscation, along with DB_NAME, DB_LOC, DB_PORT
+    Continue to use and build good developer habits.
+
+4) Create a server.js file, .env file, .gitignore file and server FOLDER all in your project folder.
+    within project_name folder >
+        server.js, .env, .gitignore, and a server folder
+            within the server folder > are the following folders 
+                config, controllers, models, routes.
+        within .gitignore file add these variables: .env node_modules
+
+5) Setup our config folder with our mongoose.config.js file using our .env file to connect to the DB
+    - config file and server.js can be built reusable with .env variables changing depending on the project.
+
+6) Test our project's backend connection by connecting to our DB with our server.js and mongoose.config.js file
+    - these are using .env credentials and a note to comment out our ROUTE section for now
+        we build our routing later, first we want to test our connection to our backend within the console
+    
+    nodemon server.js
+    - expected console response:
+        Listening on port: ####                        <--- From server.js file
+        Connection established to: ENTER_DB_NAME_HERE. <--- From mongoose.config.js file
+
+
+
+***     === We have successfully set up our secure backend and DB connection ===     ***
+
+* Continue and build the front end, connect the front end with the backend for full stack functionality
+
+We will start with a React project folder named 'client', eventually we will be using TypeScript for our project
+
+1)    npx create-react-app client
+      npx create-react-app client --template typescript
+
+2) CD into the new client folder
+    cd client
+
+3) Install axios for making requests in our client folder:
+    npm i axios react-router-dom@6
+
+Within the client > src folder, create a components FOLDER to house our main.js file
+*Main.js is a placeholder here, if we know what our project will be
+e.g: having an app for recipes or posts. Main.js can be AllRecipes.js or AllPosts.js
+    A page where all recipes and posts can be rendered.
+    This is where we can import {useEffect, usestate } from react and axios.
+    Also, our App.js file will import these for use within Router (react-router-dom@6)
+    *This gives us concurrency, reducing the need for server requests with client-side requests.
+
+Now we can fill our subfolders within the server folder.
+*This can be done by how our app communicates with itself:
+    models, controllers, routes
+
+Depending on the project, the models / schemas can vary. At a default, we can set a user model
+*We can then perform basic CRUD operations and check our entries within the DB.
+
+Understand the models are our schemas / datatypes that we set up as exportable
+*This is how they will be structured in MongoDB
+    - Allowing our controller files to import them and perform CRUD operations on them.
+
+After out controllers functions are finished, that means our desired queries or operations are in effect.
+*We can now establish our routes:
+    - Create the specific URLs for each GET, POST, PUT, DELETE requests
+    - We can start by creating createUser and FindAllUsers
+
+The routing portion within the server.js can now be uncommented and updated for your file name / schema
+    e.g. app.post('/api/users', UserController.createUser);
+
+We can now test our CRUD operations within our DB using Postman, cd to the project_name folder and run server.js
+    nodemon server.js
+
+If desired, we can have within our client > App.js file the useEffect and console.log a response for testing.
+
+We can then add a new console at the same time and have that run our client to test our frontend when we get there.
