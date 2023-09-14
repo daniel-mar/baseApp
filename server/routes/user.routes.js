@@ -10,5 +10,10 @@ module.exports = (app) => {
     // Create a User
     app.post('/api/users', UserController.createUser);
 
+    // Edit a User
+    app.put('/api/user/:id', UserController.updateUser);
+
+    // Find a User
+    app.get('/api/user/:id', UserController.findOneUser);
 
 }

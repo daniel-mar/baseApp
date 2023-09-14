@@ -24,10 +24,35 @@ module.exports.createUser = (req, res) => {
     User.exists({ name: req.body.name })
         .then(userExists => {
             if(userExists) {
-                return Promise.reject('User has been found in DB already.')
+                return Promise.reject('User has been found in DB already.');
             } 
             return User.create(req.body);
         })
         .then(saveResult => res.json(saveResult))
         .catch(err => res.json(err));
+}
+
+// Edit a User
+// Update a User, submit the edit User
+module.exports.updateUser = (req, res) => {
+    User.findByIdAndUpdate({ _id: req.params.id },
+        req.body,
+        {
+            new: true, runValidators: true
+        }).then(updateUser => {
+            res.json({ results: updateUser });
+        }).catch(err => {
+            res.json({ msg: "error ocurred on User update", error: err});
+        })
+}
+
+// Find a User
+module.exports.findOneUser = (req, res) => {
+    User.findOne({ _id: req.params.id })
+        .then(foundUser => {
+            res.json({ results: foundUser })
+        })
+        .catch(err => {
+            res.json({ msg: 'error occured on finding User', error: err})
+        })
 }
